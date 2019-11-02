@@ -1,4 +1,5 @@
 #!/bin/sh
+
 DATE="$(date)"
 AUTHOR="Marcel Guzik"
 GROUP="środa parzysta"
