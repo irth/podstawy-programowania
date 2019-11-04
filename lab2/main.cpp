@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
+#include <string.h>
 
 void zad1() {
     float a, b, c;
@@ -90,6 +92,7 @@ void zad2() {
 }
 
 void zad3() {
+    printf("podaj: min_obwod max_obwod ilosc_wierszy\n");
     float min, max;
     unsigned int rows;
     scanf("%f %f %d", &min, &max, &rows);
@@ -100,36 +103,143 @@ void zad3() {
     }
 
     if(min <= 0 || max <= 0 || rows <= 0) {
-        printf("bad data\n");
+        printf("zle dane\n");
     }
 
-    printf("=========================================\n");
+    printf("+=======================================+\n");
     printf("| Lp | promien | obwod kola | pole kola |\n");
-    printf("=========================================\n");
+    printf("+=======================================+\n");
     for(unsigned int i = 1; i <= rows; i++) {
         float current_radius = min + (max - min) / (rows - 1) * (i - 1);
-        float obwod = 2 * current_radius * M_PI;
+        float circumference = 2 * current_radius * M_PI;
         float area = current_radius * current_radius * M_PI;
-        printf("| %2d | %7.2f | %10.2f | %9.2f |\n", i, current_radius, obwod, area);
+        printf("| %2d | %7.2f | %10.2f | %9.2f |\n", i, current_radius, circumference, area);
     }
-    printf("=========================================\n");
+    printf("+=======================================+\n");
 }
 
-int main() {
+void zad4() {
+    printf("n0 = ");
+    int n0;
+    scanf(" %d", &n0);
+
+    int n = n0;
+    for(unsigned int i = 1; n != 1; i++) {
+        int next_n;
+
+        if(n % 2 == 0) {
+            next_n = n / 2;
+            printf("%d, %d, %s, %d\n", i, n, "parzyste", next_n);
+        } else {
+            next_n = 3 * n + 1;
+            printf("%d, %d, %s, %d\n", i, n, "nieparzyste", next_n);
+        }
+        n = next_n;
+    }
+}
+
+void zad5a() {
+    printf("podaj liczby calkowite: a b\n");
+    int min, max;
+    scanf(" %d %d", &min, &max);
+    if(max < min) {
+        int buf = max;
+        max = min;
+        min = buf;
+    }
+
+    int randomised = min + rand() % (max - min + 1);
+    int sum = randomised;
+    int smallest = randomised, biggest = randomised;
+
+    for(unsigned int i = 1; i < 20; i++) {
+        int randomised = min + rand() % (max - min + 1);
+
+        if(randomised < smallest) {
+            smallest = randomised;
+        }
+        else if(randomised > biggest) {
+            biggest = randomised;
+        }
+
+        sum += randomised;
+    }
+
+    double avg = (double)sum / 20.0;
+    printf("najmniejsza: %d\nnajwieksza: %d\nsrednia: %f\n", smallest, biggest, avg);
+}
+
+void zad5b() {
+    printf("podaj liczby rzeczywiste: a b\n");
+    double min, max;
+    scanf(" %lf %lf", &min, &max);
+    if(max < min) {
+        double buf = max;
+        max = min;
+        min = buf;
+    }
+
+    int randomised = min + (max - min) * rand() / ((double)RAND_MAX);
+    double sum = randomised;
+    double smallest = randomised, biggest = randomised;
+
+    for(unsigned int i = 1; i < 20; i++) {
+        double randomised = min + (max - min) * rand() / ((double)RAND_MAX);
+
+        if(randomised < smallest) {
+            smallest = randomised;
+        }
+        else if(randomised > biggest) {
+            biggest = randomised;
+        }
+
+        sum += randomised;
+    }
+
+    double avg = sum / 20.0;
+    printf("najmniejsza: %f\nnajwieksza: %f\nsrednia: %f\n", smallest, biggest, avg);
+}
+
+void zad5() {
+    printf("(a/b): ");
     char choice;
     do {
-        printf("wybierz zadanie (1-3). 'E' zeby wyjsc: ");
-        scanf("%c", &choice);
-        switch(choice) {
-            case '1':
-                zad1();
-                break;
-            case '2':
-                zad2();
-                break;
-            case '3':
-                zad3();
-                break;
+        scanf(" %c", &choice);
+        if(choice == 'a') {
+            zad5a();
         }
-    } while(choice != 'e' || choice != 'E');
+        else if(choice == 'b') {
+            zad5b();
+        }
+    } while(choice != 'a' && choice != 'A' && choice != 'b' && choice != 'B');
+}
+
+int main(int argc, char** argv) {
+    srand(time(NULL));
+    printf("Autor: Marcel Guzik\n");
+
+
+    void (*funcs[])() = { zad1, zad2, zad3, zad4, zad5 };
+    int funcsLen = sizeof(funcs) / sizeof(void*);
+
+    char choice;
+    do {
+        int offset;
+        // passing exercise number as command line argument
+        if(argc > 1) {
+            if(strlen(argv[1]) == 1) {
+                offset = *argv[1] - '0' - 1;
+            }
+            choice = 'e';
+        }
+        else {
+            printf("wybierz zadanie (1-%d). 'E' zeby wyjsc: ", funcsLen);
+            // https://stackoverflow.com/questions/5240789/scanf-leaves-the-new-line-char-in-the-buffer
+            scanf(" %c", &choice);
+            offset = choice - '0' - 1;
+        }
+        if(offset >= 0 && offset <= funcsLen - 1) {
+            funcs[offset]();
+        }
+    } while(choice != 'e' && choice != 'E');
 }
