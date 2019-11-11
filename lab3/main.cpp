@@ -127,11 +127,11 @@ void zad5() {
     printf("Wpisuj litery: ");
     char input;
     int chars_written = 0;
-    for(; ; chars_written++) {
+    do {
         input = tolower(xgetch()); // getch(); -- not available in linux
-        
-        if(input == 'k') {
-            break;
+        // co zrobic jezeli podany znak to newline albo spacja?
+        if(input != ' ' && input != '\n') {
+            chars_written++;
         }
         
         for(int i = 0; i < 6; i++) {
@@ -140,7 +140,7 @@ void zad5() {
                 break;
             }
         }
-    }
+    } while(input != 'k');
 
     printf("Wpisano ogolem %d znakow w tym:\n", chars_written);
     for(int i = 0; i < 6; i++) {
@@ -154,7 +154,30 @@ void zad5() {
 
 int main(int argc, char** argv) {
     printf("Autor: Marcel Guzik\n");
-    zad5();
+
+    void (*funcs[])() = { zad1, zad2, zad3, zad4, zad5 };
+    int funcsLen = sizeof(funcs) / sizeof(void*);
+
+    char choice;
+    do {
+        int offset;
+        // passing exercise number as command line argument
+        if(argc > 1) {
+            if(strlen(argv[1]) == 1) {
+                offset = *argv[1] - '0' - 1;
+            }
+            choice = 'e';
+        }
+        else {
+            printf("wybierz zadanie (1-%d). 'E' zeby wyjsc: ", funcsLen);
+            // https://stackoverflow.com/questions/5240789/scanf-leaves-the-new-line-char-in-the-buffer
+            scanf(" %c", &choice);
+            offset = choice - '0' - 1;
+        }
+        if(offset >= 0 && offset <= funcsLen - 1) {
+            funcs[offset]();
+        }
+    } while(choice != 'e' && choice != 'E');
 
     return 0;
 }
