@@ -1,7 +1,7 @@
 /*
 	Autor: Marcel Guzik
-	Grupa: środa parzysta
-	Data: Mon  4 Nov 16:40:36 CET 2019
+	Grupa: środa parzysta 15:15
+	Data: Mon 11 Nov 17:54:19 CET 2019
 */
 
 #include <stdio.h>
