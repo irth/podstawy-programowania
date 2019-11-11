@@ -14,12 +14,8 @@ then
     exit
 fi
 
-if [ "$(head -n1 $FILENAME)" != '/*\n' ]
-then
+if [ "$(head -n1 $FILENAME)" != '/*' ]; then
     CREDS="\tAutor: $AUTHOR\n\tGrupa: $GROUP\n\tData: $DATE\n"
     COMMENT="/*\n$CREDS*/\n"
     printf "$COMMENT\n%s" "$(cat $FILENAME)" > $FILENAME
 fi
-
-
-
