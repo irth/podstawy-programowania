@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 void print_centered_line(char text, int width, int padding) {
     for(int i = 0; i < padding; i++) {
@@ -65,10 +66,30 @@ void zad2() {
     }
 }
 
+int gcd(int a, int b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+int lcm(int a, int b) {
+    int max = a > b ? a : b;
+    while(max % a != 0 || max % b != 0) {
+        max++;
+    }
+    return max;
+}
+
+void zad3() {
+    printf("Podaj a, b (separowane spacja): ");
+    int a, b;
+    scanf(" %d %d", &a, &b);
+    printf("nwd: %d\n", gcd(abs(a), abs(b)));
+    printf("nww: %d\n", lcm(abs(a), abs(b)));
+}
+
 int main(int argc, char** argv) {
     printf("Autor: Marcel Guzik\n");
 
-    zad2();
+    zad3();
 
     return 0;
 }
