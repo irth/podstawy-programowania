@@ -86,10 +86,26 @@ void zad3() {
     printf("nww: %d\n", lcm(abs(a), abs(b)));
 }
 
+int digit_sum(unsigned long num) {
+    int sum = 0;
+    while(num != 0) {
+        sum += num % 10;
+        num /= 10;
+    }
+    return sum;
+}
+
+void zad4() {
+    printf("podaj liczbe: ");
+    unsigned long num;
+    scanf(" %ld", &num);
+    printf("suma cyfr: %d\n", digit_sum(num));
+}
+
 int main(int argc, char** argv) {
     printf("Autor: Marcel Guzik\n");
 
-    zad3();
+    zad4();
 
     return 0;
 }
