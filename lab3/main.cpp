@@ -7,6 +7,23 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
+#include <string.h>
+
+#ifndef __unix__
+    #include <conio.h>
+#endif
+
+// cross platform getch, falling back to getchar on linux
+// only use this for linux compatibility
+// on windows, use getch directly
+char xgetch() {
+    #ifdef __unix__
+        return getchar();
+    #else
+        return getch();
+    #endif
+}
 
 void print_centered_line(char text, int width, int padding) {
     for(int i = 0; i < padding; i++) {
@@ -102,10 +119,42 @@ void zad4() {
     printf("suma cyfr: %d\n", digit_sum(num));
 }
 
+void zad5() {
+    // "hashmap" for amount of occurences of chars in the key
+    // implemented as key/value pairs
+    char keys[] = "aeiouy";
+    int values[6] = { 0 };
+    printf("Wpisuj litery: ");
+    char input;
+    int chars_written = 0;
+    for(; ; chars_written++) {
+        input = tolower(xgetch()); // getch(); -- not available in linux
+        
+        if(input == 'k') {
+            break;
+        }
+        
+        for(int i = 0; i < 6; i++) {
+            if(keys[i] == input) {
+                values[i]++;
+                break;
+            }
+        }
+    }
+
+    printf("Wpisano ogolem %d znakow w tym:\n", chars_written);
+    for(int i = 0; i < 6; i++) {
+        printf("litera %c  %d ", toupper(keys[i]), values[i]);
+        for(int j = 0; j < values[i]; j++) {
+            printf("#");
+        }
+        printf("\n");
+    }
+}
+
 int main(int argc, char** argv) {
     printf("Autor: Marcel Guzik\n");
-
-    zad4();
+    zad5();
 
     return 0;
 }
