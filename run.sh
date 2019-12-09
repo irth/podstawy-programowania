@@ -1,2 +1,2 @@
 #!/bin/sh
-g++ -Wall $1 && ./a.out $2
+g++ -g -Wall $1 && ./a.out $2
