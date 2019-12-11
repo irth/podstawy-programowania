@@ -8,7 +8,7 @@
 #include <string.h>
 #include <random>
 
-#define ROZMIAR 10
+#define ROZMIAR 5
 
 void init_array(float* arr) {
     for(int i = 0; i < ROZMIAR; i++) {
