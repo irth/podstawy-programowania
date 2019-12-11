@@ -2,7 +2,7 @@
 
 DATE="$(date)"
 AUTHOR="Marcel Guzik"
-GROUP="środa parzysta"
+GROUP="środa parzysta 15:15"
 
 
 # TODO: replace naive first line check with regex expression,
