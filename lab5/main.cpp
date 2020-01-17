@@ -135,7 +135,8 @@ void zad2() {
     char teststr1[32] = "AAAABBBBCCC";
     char teststr2[32] = "CDDDD";
     printf("strlen(%s) = %d\n", teststr1, moje_strlen(teststr1));
-    printf("strcat(%s, %s) = %s\n", teststr1, teststr2, moje_strcat(teststr1, teststr2));
+    printf("strcat(%s, %s) = ", teststr1, teststr2);
+    printf("%s\n", moje_strcat(teststr1, teststr2));
 
     char haystack[] = "substsubstringgg";
     char needle[] = "substring";
@@ -155,7 +156,33 @@ void zad2() {
 }
 
 
-int main() {
-    zad2();
+int main(int argc, char** argv) {
+    printf("Autor: Marcel Guzik\n");
+
+    void (*funcs[])() = { zad1, zad2 };
+    int funcsLen = sizeof(funcs) / sizeof(void*);
+
+    char choice;
+    do {
+        int offset;
+        // passing exercise number as command line argument
+        if(argc > 1) {
+            if(strlen(argv[1]) == 1) {
+                offset = *argv[1] - '0' - 1;
+            }
+            choice = 'e';
+        }
+        else {
+            printf("wybierz zadanie (1-%d). 'E' zeby wyjsc: ", funcsLen);
+            scanf(" %c", &choice);
+            offset = choice - '0' - 1;
+        }
+        if(offset >= 0 && offset <= funcsLen - 1) {
+            printf("%d\n", offset);
+            funcs[offset]();
+        }
+    } while(choice != 'e' && choice != 'E');
+
+
     return 0;
 }
